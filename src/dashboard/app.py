@@ -6,7 +6,13 @@ import sys
 from pathlib import Path
 
 SRC_DIR = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(SRC_DIR))
+PROJECT_ROOT = SRC_DIR.parent
+
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
 
 import streamlit as st
 import pandas as pd
@@ -14,20 +20,20 @@ import numpy as np
 import json
 import pickle
 
-from config.settings import (
+from src.config.settings import (
     BASE_DIR,
     DATA_DIR,
     PROCESSED_DATA_DIR,
     SYNTHETIC_DATA_DIR,
-    MODELS,
+    MODELS_DIR,
     TARIFF_CONFIG,
     SIMULATION_CONFIG
 )
+
 from src.models.explainability import TamperExplainer
 from src.models.cost_optimizer import CostSensitiveInspectionOptimizer
 from src.features.temporal_baseline import PersonalizedTemporalBaseline
 from src.features.statistical_features import StatisticalFeatureExtractor
-
 st.set_page_config(
     page_title="GridShield-AI | Energy Theft Detection",
     page_icon="⚡",
