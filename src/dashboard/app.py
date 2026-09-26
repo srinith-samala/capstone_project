@@ -2,18 +2,26 @@
 GridShield-AI: Energy Theft and Meter Tamper Detection Dashboard
 KES B.Sc. Data Science Capstone Project BDS-33
 """
+import sys
+from pathlib import Path
+
+SRC_DIR = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(SRC_DIR))
+
 import streamlit as st
 import pandas as pd
 import numpy as np
-import plotly.express as px
-import plotly.graph_objects as go
-from pathlib import Path
 import json
 import pickle
 
 from config.settings import (
-    BASE_DIR, DATA_DIR, PROCESSED_DATA_DIR, SYNTHETIC_DATA_DIR, MODELS_DIR,
-    TARIFF_CONFIG, SIMULATION_CONFIG
+    BASE_DIR,
+    DATA_DIR,
+    PROCESSED_DATA_DIR,
+    SYNTHETIC_DATA_DIR,
+    MODELS,
+    TARIFF_CONFIG,
+    SIMULATION_CONFIG
 )
 from src.models.explainability import TamperExplainer
 from src.models.cost_optimizer import CostSensitiveInspectionOptimizer
