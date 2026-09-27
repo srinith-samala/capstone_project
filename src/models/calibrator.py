@@ -24,10 +24,10 @@ class ProbabilityCalibrator:
         Fits calibration model on hold-out validation set.
         """
         logger.info(f"Calibrating probabilities using method='{self.method}'...")
-        from sklearn.frozen import FrozenEstimator
         self.calibrated_classifier = CalibratedClassifierCV(
-            estimator=FrozenEstimator(base_estimator.model),
-            method=self.method
+            estimator=base_estimator.model,
+            method=self.method,
+            cv="prefit"
         )
         X_mat = X_val[base_estimator.feature_names].fillna(0.0).values
         self.calibrated_classifier.fit(X_mat, y_val)
