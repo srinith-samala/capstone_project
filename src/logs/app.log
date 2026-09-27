@@ -1,0 +1,29 @@
+[2026-09-27 13:32:33] [INFO] [BDS33_CLI:62] - === BDS-33 Capstone End-to-End Pipeline Started ===
+[2026-09-27 13:32:33] [INFO] [SmartMeterSimulator:155] - Generating synthetic fleet with 120 meters across 120 days...
+[2026-09-27 13:32:34] [INFO] [SmartMeterSimulator:247] - Generated 345,600 smart meter interval records for 120 meters.
+[2026-09-27 13:32:34] [INFO] [BDS33_CLI:40] - Saved synthetic fleet datasets to C:\Srinith_Samala\Energy_thief\src\data\synthetic
+[2026-09-27 13:32:34] [INFO] [FeaturePipeline:36] - Step 1/4: Flagging grid blackouts vs localized meter zero readings...
+[2026-09-27 13:32:34] [INFO] [OutageHandler:38] - Disambiguated grid outages: identified 0 distinct blackout intervals across feeders.
+[2026-09-27 13:32:34] [INFO] [FeaturePipeline:39] - Step 2/4: Computing feeder energy mass-balance residuals...
+[2026-09-27 13:32:34] [INFO] [FeederBalancer:54] - Computed feeder-level energy balance and unmetered loss differentials.
+[2026-09-27 13:32:34] [INFO] [FeaturePipeline:52] - Step 3/4: Estimating personalized temporal baselines and residual signals...
+[2026-09-27 13:32:34] [INFO] [PersonalizedTemporalBaseline:61] - Computing personalized temporal baselines across all meters...
+[2026-09-27 13:32:35] [INFO] [PersonalizedTemporalBaseline:92] - Personalized baseline residuals calculated successfully.
+[2026-09-27 13:32:35] [INFO] [FeaturePipeline:55] - Step 4/4: Extracting comprehensive tabular features per meter...
+[2026-09-27 13:32:35] [INFO] [StatisticalFeatureExtractor:149] - Extracting statistical and shape features for 120 meters...
+[2026-09-27 13:32:36] [INFO] [StatisticalFeatureExtractor:156] - Engineered feature table generated with shape: (120, 27)
+[2026-09-27 13:32:36] [INFO] [FeaturePipeline:58] - Feature pipeline completed successfully.
+[2026-09-27 13:32:36] [INFO] [BDS33_CLI:87] - Splits -> Train: 72, Val: 24, Test: 24
+[2026-09-27 13:32:36] [INFO] [AnomalyBaselines:32] - Isolation Forest baseline trained successfully.
+[2026-09-27 13:32:45] [INFO] [AnomalyBaselines:112] - PyTorch Deep Autoencoder baseline trained across 25 epochs.
+[2026-09-27 13:32:45] [INFO] [TamperClassifier:35] - Fitting supervised LightGBM Classifier...
+[2026-09-27 13:32:45] [INFO] [TamperClassifier:59] - Supervised tamper classifier training complete.
+[2026-09-27 13:32:45] [INFO] [ProbabilityCalibrator:26] - Calibrating probabilities using method='isotonic'...
+[2026-09-27 13:32:45] [INFO] [ProbabilityCalibrator:35] - Probability calibration complete.
+[2026-09-27 13:32:45] [INFO] [TamperExplainer:32] - SHAP TreeExplainer initialized successfully.
+[2026-09-27 13:32:45] [INFO] [DriftMonitor:83] - Drift monitoring completed. Overall status: ALERT_RETRAIN (High drift in: ['mean_consumption', 'std_consumption', 'median_consumption', 'iqr_consumption', 'skewness', 'kurtosis', 'max_consumption', 'min_consumption'])
+[2026-09-27 13:32:45] [INFO] [BDS33_CLI:176] - === Pipeline Run Finished Successfully ===
+[2026-09-27 13:32:45] [INFO] [BDS33_CLI:177] - Isolation Forest PR-AUC: 0.6298 | Recall@10%: 0.50
+[2026-09-27 13:32:45] [INFO] [BDS33_CLI:178] - Autoencoder PR-AUC:      0.4625 | Recall@10%: 0.25
+[2026-09-27 13:32:45] [INFO] [BDS33_CLI:179] - Calibrated Model PR-AUC: 0.7619 | Recall@10%: 0.50
+[2026-09-27 13:32:45] [INFO] [BDS33_CLI:180] - Max Net Projected Savings: INR 154,164.26
